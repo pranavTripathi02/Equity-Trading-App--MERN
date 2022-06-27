@@ -43,7 +43,7 @@ const UserSchema = new mongoose.Schema({
   },
   investedCompanies: [
     {
-      type: Array,
+      type: mongoose.Types.ObjectId,
       ref: 'Company',
     },
   ],

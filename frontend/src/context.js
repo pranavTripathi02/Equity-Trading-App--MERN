@@ -5,7 +5,7 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   // const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const saveUser = (user) => {
     setUser(user);
   };
@@ -16,9 +16,9 @@ export const AppProvider = ({ children }) => {
   const fetchUser = async () => {
     try {
       const { data } = await axios.get('api/v1/user/me');
-      console.log('data: ', data);
+      // console.log('data: ', data);
       saveUser(data.user);
-      console.log('user: ', data.user);
+      // console.log('user: ', data.user);
     } catch (err) {
       removeUser();
       console.error('error from context', err);

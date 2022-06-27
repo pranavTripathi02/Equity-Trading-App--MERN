@@ -46,7 +46,7 @@ const register = async (req, res) => {
 
 const verifyEmail = async (req, res) => {
   const { token, email } = req.query;
-  console.log(req.body);
+  // console.log(req.body);
   // console.log('***********VerifyEmail: ', verificationToken, email);
   const user = await User.findOne({ email });
   if (!user || user.verificationToken != token)
@@ -103,7 +103,7 @@ const login = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   await Token.findOneAndDelete({ user: req.user.userID });
 
   res.cookie('accessToken', 'logout', {

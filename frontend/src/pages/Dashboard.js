@@ -15,13 +15,20 @@ export default function Dashboard() {
 
   const fetchCompanies = async () => {
     setIsLoading(true);
-    try {
-      const { data } = await axios.get(
-        `/api/v1/companies?opt=${listCompanies}`
-      );
-      setCompanies(data.companies);
-    } catch (err) {
-      console.error(err);
+    console.log(user);
+    if (listCompanies === 'watch') {
+      const { data } = await axios.get('api/v1/user/me');
+      console.log('data: ', data);
+      // setCompanies(user.investedCompanies);
+    } else {
+      try {
+        const { data } = await axios.get(
+          `/api/v1/companies?opt=${listCompanies}`
+        );
+        setCompanies(data.companies);
+      } catch (err) {
+        console.error(err);
+      }
     }
     setIsLoading(false);
   };
@@ -31,7 +38,7 @@ export default function Dashboard() {
     setActiveID(id);
     if (id === 'reg') setListCompanies('true');
     if (id === 'unreg') setListCompanies('false');
-    if (id === 'watch') setListCompanies('');
+    if (id === 'watch') setListCompanies('watch');
   };
 
   useEffect(() => {
@@ -94,14 +101,5 @@ const Wrapper = styled.div`
   }
   .company-category.active {
     background: rgba(46, 169, 245, 0.462);
-    // background: linear-gradient(
-    //   160deg,
-    //   rgba(46, 169, 245, 0.462),
-    //   rgba(46, 169, 245, 0.462),
-    //   60%,
-    //   rgba(255, 255, 255, 0.531) 60%,
-    //   rgba(255, 255, 255, 0.531)
-    // );
-    // background-image: linear-gradient(45deg, rgba(0, 0, 0, 0), rgba(2, 2, 0, 0));
   }
 `;

@@ -1,7 +1,7 @@
 const { createJWT } = require('./createVerifyJWT');
 
 const attachCookies = ({ res, user, refreshToken }) => {
-  const accessTokenJWT = createJWT({ payload: user });
+  const accessTokenJWT = createJWT({ payload: { user } });
   const refreshTokenJWT = createJWT({ payload: { user, refreshToken } });
   const day = 1000 * 60 * 60 * 24;
 

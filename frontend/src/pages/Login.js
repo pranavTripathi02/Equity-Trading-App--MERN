@@ -23,21 +23,19 @@ export default function Login() {
     const user = { email, password };
     try {
       const { data } = await axios.post('/api/v1/auth/login', user);
-      setIsLoading(false);
       setValues({ email: '', password: '' });
       showAlert({
         text: 'Welcome ${data.user.name}. Redirecting to dashboard...',
         type: 'success',
       });
-      setIsLoading(false);
       console.log('from login:', data.user);
       saveUser(data.user);
       // navigate('/dashboard');
     } catch (err) {
       console.log('err is: ', err);
       showAlert({ text: err.response.data.message });
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
   // console.log('alert: ', alert);
   // console.log('user: ', user);

@@ -8,7 +8,7 @@ const getAllUsers = async (req, res) => {
 };
 
 const getCurrentUser = async (req, res) => {
-  console.log('usercontroller', req.user);
+  // console.log('usercontroller', req.user);
   // const user = await User.findById({ _id: req.user });
   // console.log(user);
   res.status(StatusCodes.OK).json({ user: req.user });

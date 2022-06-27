@@ -13,6 +13,7 @@ export default function CompanyDetails() {
     try {
       const { data } = await axios.get(`/api/v1/companies/details?id=${id}`);
       setDetails(data);
+      // console.log(details.investors.indexOf(user.userID === -1));
     } catch (err) {
       console.error(err);
     }
@@ -24,10 +25,22 @@ export default function CompanyDetails() {
       user,
       id,
     });
-    console.log(data);
+    // console.log(data);
   };
 
-  console.log(details);
+  const addToInvestedCompanies = async () => {
+    try {
+      const { data } = await axios.patch('/api/v1/companies/details', {
+        role: 'investor',
+        user: user,
+        id,
+      });
+      // console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  console.log(user, details);
 
   useEffect(() => {
     fetchDetails();
@@ -42,7 +55,7 @@ export default function CompanyDetails() {
             <h3>Name: {details.name}</h3>
             <h4>CIN/FCRN: {details.CIN}</h4>
             <h5>Registration Date: {details.registrationDate.split('T')[0]}</h5>
-            {!details.shareholder && (
+            {!details.isVerified && (
               <div className='add-shareholder'>
                 <h4>Company currently has no shareholder</h4>
                 <button
@@ -55,16 +68,25 @@ export default function CompanyDetails() {
                 </button>
               </div>
             )}
-            {details.shareholder === user && (
+            {details.shareholder === user.userID && (
               <div className='shareholder'>
                 <button className='btn btn-lg btn-primary'>Add Updates</button>
               </div>
             )}
-            {details.shareholder && details.shareholder != user && (
-              <div className='investor'>
-                <h4>invest in company</h4>
-              </div>
-            )}
+            {details.isVerified &&
+              details.shareholder != user.userID &&
+              details.investors.indexOf(user.userID === -1) && (
+                <div className='investor'>
+                  <button
+                    className='btn btn-lg btn-primary'
+                    onClick={() => {
+                      addToInvestedCompanies();
+                    }}
+                  >
+                    Invest in Company
+                  </button>
+                </div>
+              )}
           </div>
         </div>
       )}
@@ -73,10 +95,11 @@ export default function CompanyDetails() {
 }
 
 const Wrapper = styled.div`
+  background: #fff;
   min-height: 80vh;
   margin-top: 5rem;
   padding: 0.25rem 0.5rem 2.5rem 1.5rem;
-  .investory,
+  .investor,
   .shareholder,
   .add-shareholder {
     margin-top: 5rem;

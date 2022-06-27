@@ -6,6 +6,7 @@ import NotFound from './NotFound';
 import CompanyDetails from './CompanyDetails';
 import Dashboard from './Dashboard';
 import Account from './Account';
+import PrivateRoute from './ProtectedRoute';
 import Verify from './Verify';
 
 export {
@@ -18,4 +19,5 @@ export {
   CompanyDetails,
   Dashboard,
   Verify,
+  PrivateRoute,
 };

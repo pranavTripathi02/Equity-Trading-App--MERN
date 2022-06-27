@@ -11,6 +11,7 @@ const authoriseUser = async (req, res, next) => {
     if (accessToken) {
       const payload = isTokenValid(accessToken);
       req.user = payload.user;
+      // console.log('fauthorise', req.user, payload.user);
       return next();
     }
     const payload = isTokenValid(refreshToken);
@@ -28,6 +29,7 @@ const authoriseUser = async (req, res, next) => {
     });
 
     req.user = payload.user;
+    console.log('authorise', req.user);
     next();
   } catch (error) {
     throw new customError.UnauthorizedError('Authentication Invalid');

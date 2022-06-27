@@ -1,3 +1,5 @@
 .env
+populate.js
+data.json
 
 node_modules/

@@ -30,16 +30,39 @@ const getCompany = async (req, res) => {
 
 const updateCompany = async (req, res) => {
   const { user, id: companyID, role } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   const company = await Company.findById({ _id: companyID });
+  // console.log(company);
   if (company.shareholder && role === 'shareholder') {
     throw new customError.BadRequestError(`Company Shareholder Exists`);
   } else if (!company.shareholder && role === 'shareholder') {
-    await company.update({ isVerified: true, shareholder: user });
+    await Company.updateOne(
+      { _id: companyID },
+      { $set: { isVerified: true, shareholder: user.userID } }
+    );
   } else if (role === 'investor') {
-    await company.update({ investors: [...investors, user] });
+    await Company.updateOne(
+      { _id: companyID },
+      {
+        $addToSet: {
+          investors: user.userID,
+        },
+      }
+    );
+    // console.log(user, companyID);
+    // console.log(companyID);
+    // const data = await User.findOne({ _id: user.userID });
+    // console.log('data', data.investedCompanies);
+    await User.updateOne(
+      { _id: user.userID },
+      {
+        $addToSet: {
+          investedCompanies: company._id,
+        },
+      }
+    );
   }
-  console.log(data);
+  // console.log();
   res.end();
 };
 

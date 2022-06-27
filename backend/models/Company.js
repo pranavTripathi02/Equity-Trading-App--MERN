@@ -23,7 +23,7 @@ const CompanySchema = new mongoose.Schema({
   },
   investors: [
     {
-      type: Array,
+      type: mongoose.Types.ObjectId,
       ref: 'User',
     },
   ],
